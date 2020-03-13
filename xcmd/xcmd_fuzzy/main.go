@@ -2,8 +2,8 @@ package xcmd_fuzzy
 
 import (
 	"fmt"
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 	"log"
 
 	"strings"

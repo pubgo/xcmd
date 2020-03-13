@@ -1,8 +1,8 @@
 package xcmd_migrate1
 
 import (
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 )
 
 func Init() *xcmd.Command {

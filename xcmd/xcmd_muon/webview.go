@@ -2,8 +2,8 @@ package xcmd_muon
 
 import (
 	"github.com/ImVexed/muon"
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 	"net/http"
 )
 

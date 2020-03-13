@@ -3,8 +3,8 @@ package xcmd_git
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/plumbing"
 	"strings"

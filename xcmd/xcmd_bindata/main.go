@@ -2,8 +2,8 @@ package xcmd_bindata
 
 import (
 	"github.com/go-bindata/go-bindata/v3"
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 	"path/filepath"
 	"regexp"
 	"strings"

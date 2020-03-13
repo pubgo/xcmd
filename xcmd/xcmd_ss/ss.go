@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func ss() *xcmd.Command {
+func SS() *xcmd.Command {
 	var (
 		//_key       = "123456"
 		_text      = "hello"

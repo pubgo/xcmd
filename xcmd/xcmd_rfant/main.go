@@ -2,8 +2,8 @@ package xcmd_rfant
 
 import (
 	"github.com/c-bata/go-prompt"
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 	"os"
 	"strings"
 )

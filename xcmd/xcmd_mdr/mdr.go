@@ -3,8 +3,8 @@
 package xcmd_mdr
 
 import (
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/g/xerror"
+	"github.com/pubgo/xcmd/xcmd"
 	"io/ioutil"
 	"os"
 	"path"
