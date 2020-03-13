@@ -1,8 +1,8 @@
 package cmds
 
 import (
-	"github.com/pubgo/g/xcmd"
 	"github.com/pubgo/xcmd/version"
+	"github.com/pubgo/xcmd/xcmd"
 	"github.com/pubgo/xcmd/xcmd/xcmd_fuzzy"
 	"github.com/pubgo/xcmd/xcmd/xcmd_git"
 	"github.com/pubgo/xcmd/xcmd/xcmd_mdr"
@@ -11,11 +11,12 @@ import (
 	"github.com/pubgo/xcmd/xcmd/xcmd_wv"
 )
 
-const Service = "X"
+const Service = "xcmd"
 
 // Execute exec
 var Execute = xcmd.Init(func(cmd *xcmd.Command) {
 	cmd.Version = version.Version
+	cmd.Use = Service
 
 	cmd.AddCommand(
 		xcmd_git.Init(),
