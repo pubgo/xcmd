@@ -13,7 +13,7 @@ type Command = cobra.Command
 
 var rootCmd = &Command{}
 
-func Init(cfn ...func(cmd *Command)) func(...string) {
+func Init(cfn ...func(cmd *Command)) func(fn ...func(*Command)) {
 	rootCmd.Use = xenv.Cfg.Service
 	rootCmd.PersistentPreRunE = func(cmd *Command, args []string) (err error) {
 		defer xerror.RespErr(&err)
@@ -27,24 +27,63 @@ func Init(cfn ...func(cmd *Command)) func(...string) {
 		cfn[0](rootCmd)
 	}
 
-	return func(defaultHome ...string) {
+	return func(fn ...func(*Command)) {
 		defer xerror.Resp(func(err xerror.IErr) {
 			if !err.Is(cobra.ErrSubCommandRequired) {
 				err.P()
 			}
 		})
 
-		_defaultHome := "$PWD"
-		if len(defaultHome) > 0 {
-			_defaultHome = defaultHome[0]
+		for _, f := range fn {
+			f(rootCmd)
 		}
-		_defaultHome = os.ExpandEnv(_defaultHome)
 
-		rootCmd.PersistentFlags().StringP("home", "", _defaultHome, "project home dir")
-		rootCmd.PersistentFlags().BoolP("debug", "d", false, "debug mode")
-		rootCmd.PersistentFlags().StringP("log_level", "l", "debug", "log level(debug|info|warn|error|fatal|panic)")
-		rootCmd.PersistentFlags().StringP("env", "e", "dev", "running mode(dev|test|stag|prod|release)")
 		xerror.PanicM(rootCmd.Execute(), "command error")
+	}
+}
+
+func WithHome(defaultHome ...string) func(cmd *Command) {
+	_defaultHome := "$PWD"
+	if len(defaultHome) > 0 {
+		_defaultHome = defaultHome[0]
+	}
+	_defaultHome = os.ExpandEnv(_defaultHome)
+
+	return func(cmd *Command) {
+		rootCmd.PersistentFlags().StringP("home", "", _defaultHome, "project home dir")
+	}
+}
+
+func WithDebug(debug ...bool) func(cmd *Command) {
+	_debug := true
+	if len(debug) > 0 {
+		_debug = debug[0]
+	}
+
+	return func(cmd *Command) {
+		rootCmd.PersistentFlags().BoolP("debug", "d", _debug, "debug mode")
+	}
+}
+
+func WithLogLevel(ll ...string) func(cmd *Command) {
+	_ll := "debug"
+	if len(ll) > 0 {
+		_ll = ll[0]
+	}
+
+	return func(cmd *Command) {
+		rootCmd.PersistentFlags().StringP("log_level", "l", _ll, "log level(debug|info|warn|error|fatal|panic)")
+	}
+}
+
+func WithMode(mode ...string) func(cmd *Command) {
+	_mode := "dev"
+	if len(mode) > 0 {
+		_mode = mode[0]
+	}
+
+	return func(cmd *Command) {
+		rootCmd.PersistentFlags().StringP("mode", "m", _mode, "running mode(dev|test|stag|prod|release)")
 	}
 }
 
