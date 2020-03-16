@@ -50,7 +50,7 @@ func WithHome(defaultHome ...string) func(cmd *Command) {
 	_defaultHome = os.ExpandEnv(_defaultHome)
 
 	return func(cmd *Command) {
-		rootCmd.PersistentFlags().StringP("home", "", _defaultHome, "project home dir")
+		cmd.PersistentFlags().StringP("home", "x", _defaultHome, "project home dir")
 	}
 }
 
@@ -61,7 +61,7 @@ func WithDebug(debug ...bool) func(cmd *Command) {
 	}
 
 	return func(cmd *Command) {
-		rootCmd.PersistentFlags().BoolP("debug", "d", _debug, "debug mode")
+		cmd.PersistentFlags().BoolP("debug", "d", _debug, "debug mode")
 	}
 }
 
@@ -72,7 +72,7 @@ func WithLogLevel(ll ...string) func(cmd *Command) {
 	}
 
 	return func(cmd *Command) {
-		rootCmd.PersistentFlags().StringP("log_level", "l", _ll, "log level(debug|info|warn|error|fatal|panic)")
+		cmd.PersistentFlags().StringP("log_level", "l", _ll, "log level(debug|info|warn|error|fatal|panic)")
 	}
 }
 
@@ -83,7 +83,7 @@ func WithMode(mode ...string) func(cmd *Command) {
 	}
 
 	return func(cmd *Command) {
-		rootCmd.PersistentFlags().StringP("mode", "m", _mode, "running mode(dev|test|stag|prod|release)")
+		cmd.PersistentFlags().StringP("mode", "m", _mode, "running mode(dev|test|stag|prod|release)")
 	}
 }
 
