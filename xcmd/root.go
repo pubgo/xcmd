@@ -14,17 +14,19 @@ type Command = cobra.Command
 var rootCmd = &Command{}
 
 func Init(cfn ...func(cmd *Command)) func(fn ...func(*Command)) {
+	// 环境变量处理
+	if len(cfn) != 0 {
+		cfn[0](rootCmd)
+	}
+
 	rootCmd.Use = xenv.Cfg.Service
+	rootCmd.Version = xenv.Cfg.Version
+
 	rootCmd.PersistentPreRunE = func(cmd *Command, args []string) (err error) {
 		defer xerror.RespErr(&err)
 		xerror.PanicM(viper.BindPFlags(cmd.Flags()), "Flags Error")
 		xerror.PanicM(xinit.Start(), "xinit error")
 		return
-	}
-
-	// 环境变量处理
-	if len(cfn) != 0 {
-		cfn[0](rootCmd)
 	}
 
 	return func(fn ...func(*Command)) {
@@ -43,47 +45,47 @@ func Init(cfn ...func(cmd *Command)) func(fn ...func(*Command)) {
 }
 
 func WithHome(defaultHome ...string) func(cmd *Command) {
-	_defaultHome := "$PWD"
+	_defaultHome := xenv.Cfg.Home
 	if len(defaultHome) > 0 {
 		_defaultHome = defaultHome[0]
 	}
 	_defaultHome = os.ExpandEnv(_defaultHome)
 
 	return func(cmd *Command) {
-		cmd.PersistentFlags().StringP("home", "x", _defaultHome, "project home dir")
+		cmd.PersistentFlags().StringVarP(&xenv.Cfg.Home, "home", "x", _defaultHome, "project home dir")
 	}
 }
 
 func WithDebug(debug ...bool) func(cmd *Command) {
-	_debug := true
+	_debug := xenv.Cfg.Debug
 	if len(debug) > 0 {
 		_debug = debug[0]
 	}
 
 	return func(cmd *Command) {
-		cmd.PersistentFlags().BoolP("debug", "d", _debug, "debug mode")
+		cmd.PersistentFlags().BoolVarP(&_debug, "debug", "d", _debug, "debug mode")
 	}
 }
 
 func WithLogLevel(ll ...string) func(cmd *Command) {
-	_ll := "debug"
+	_ll := xenv.Cfg.LogLevel
 	if len(ll) > 0 {
 		_ll = ll[0]
 	}
 
 	return func(cmd *Command) {
-		cmd.PersistentFlags().StringP("log_level", "l", _ll, "log level(debug|info|warn|error|fatal|panic)")
+		cmd.PersistentFlags().StringVarP(&xenv.Cfg.LogLevel, "log_level", "l", _ll, "log level(debug|info|warn|error|fatal|panic)")
 	}
 }
 
 func WithMode(mode ...string) func(cmd *Command) {
-	_mode := "dev"
+	_mode := xenv.Cfg.Env
 	if len(mode) > 0 {
 		_mode = mode[0]
 	}
 
 	return func(cmd *Command) {
-		cmd.PersistentFlags().StringP("mode", "m", _mode, "running mode(dev|test|stag|prod|release)")
+		cmd.PersistentFlags().StringVarP(&xenv.Cfg.Env, "mode", "m", _mode, "running mode(dev|test|stag|prod|release)")
 	}
 }
 

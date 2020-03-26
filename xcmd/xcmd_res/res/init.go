@@ -1,6 +1,6 @@
 package res
 
-import "github.com/pubgo/g/xcmd/xcmd_res/res/abc"
+import "github.com/pubgo/xcmd/xcmd/xcmd_res/res/abc"
 
 type Option struct {
 	Dir string
