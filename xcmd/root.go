@@ -31,9 +31,7 @@ func Init(cfn ...func(cmd *Command)) func(fn ...func(*Command)) {
 
 	return func(fn ...func(*Command)) {
 		defer xerror.Resp(func(err xerror.IErr) {
-			if !err.Is(cobra.ErrSubCommandRequired) {
-				err.P()
-			}
+			err.P()
 		})
 
 		for _, f := range fn {

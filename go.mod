@@ -34,7 +34,7 @@ require (
 	github.com/russross/blackfriday v2.0.0+incompatible
 	github.com/sahilm/fuzzy v0.1.0
 	github.com/shurcooL/go v0.0.0-20191216061654-b114cc39af9f
-	github.com/spf13/cobra v0.0.6
+	github.com/spf13/cobra v0.0.7
 	github.com/spf13/viper v1.4.0
 	github.com/ying32/dylib v0.0.0-20200305075302-6eba4f831b29 // indirect
 	github.com/ying32/govcl v1.2.10 // indirect
